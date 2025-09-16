@@ -1,4 +1,4 @@
-# Project Setup
+# Project Information
 
 ## Frontend Installation
 
