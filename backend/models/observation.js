@@ -44,7 +44,7 @@ const Observation = sequelize.define('Observation', {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
-  idempotency_key: { //prevent duplicate entries
+  idempotency_key: { 
     type: DataTypes.STRING,
     unique: true,
     allowNull: false,

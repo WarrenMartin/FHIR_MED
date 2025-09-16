@@ -1,0 +1,44 @@
+.data-table-header {
+  min-height: 56px;
+  background-color: #f8f9fa;
+}
+
+.data-table-head-row {
+  background-color: #333;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.data-table-head-cell {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.data-table-row {
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.data-table-row:hover {
+  background-color: #f1f3f4;
+}
+
+.data-table-row.highlighted {
+  background-color: white !important;
+  border-bottom-color: #e89797ff;
+  outline: 1px solid #e89797ff;
+}
+
+.data-table-pagination {
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+}
+
+.data-table-no-data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}

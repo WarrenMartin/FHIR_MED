@@ -4,13 +4,10 @@ const { searchPatients,getSpecificPatient,searchObservations}= require('../contr
 
 const router = express.Router();
 
-// GET /fhir/Patient - Search patients
 router.get('/Patient', searchPatients);
 
-// GET /fhir/Patient/:id - Get specific patient
 router.get('/Patient/:id', getSpecificPatient);
 
-// GET /fhir/Observation - Search observations
 router.get('/Observation', searchObservations);
 
 module.exports = router;

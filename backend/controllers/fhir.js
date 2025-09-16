@@ -80,11 +80,33 @@ const searchObservations = async (req, res) => {
     }
 
     if (date) {
-      const startDate = moment(date).startOf('day').toDate();
-      const endDate = moment(date).endOf('day').toDate();
-      where.timestamp = {
-        [Op.between]: [startDate, endDate]
-      };
+      if (date.startsWith('ge')) {
+        const dateValue = date.substring(2);
+        where.timestamp = {
+          [Op.gte]: moment(dateValue).startOf('day').toDate()
+        };
+      } else if (date.startsWith('le')) {
+        const dateValue = date.substring(2);
+        where.timestamp = {
+          [Op.lte]: moment(dateValue).endOf('day').toDate()
+        };
+      } else if (date.startsWith('gt')) {
+        const dateValue = date.substring(2);
+        where.timestamp = {
+          [Op.gt]: moment(dateValue).endOf('day').toDate()
+        };
+      } else if (date.startsWith('lt')) {
+        const dateValue = date.substring(2);
+        where.timestamp = {
+          [Op.lt]: moment(dateValue).startOf('day').toDate()
+        };
+      } else {
+        const startDate = moment(date).startOf('day').toDate();
+        const endDate = moment(date).endOf('day').toDate();
+        where.timestamp = {
+          [Op.between]: [startDate, endDate]
+        };
+      }
     }
 
     const observations = await Observation.findAll({
@@ -96,7 +118,6 @@ const searchObservations = async (req, res) => {
       order: [['timestamp', 'DESC']]
     });
 
-    // Convert to FHIR-like format
     const fhirObservations = observations.map(obs => {
       const observation = {
         resourceType: 'Observation',
@@ -109,6 +130,8 @@ const searchObservations = async (req, res) => {
           reference: `Patient/${obs.patient_id}`
         },
         effectiveDateTime: obs.timestamp,
+        reviewed: obs.reviewed || false, 
+        is_abnormal: obs.is_abnormal || false,
         component: []
       };
 
@@ -118,14 +141,14 @@ const searchObservations = async (req, res) => {
             code: { text: 'systolic' },
             valueQuantity: {
               value: obs.systolic,
-              unit: obs.unit
+              unit: obs.unit || 'mmHg'
             }
           },
           {
             code: { text: 'diastolic' },
             valueQuantity: {
               value: obs.diastolic,
-              unit: obs.unit
+              unit: obs.unit || 'mmHg'
             }
           }
         ];
@@ -139,15 +162,11 @@ const searchObservations = async (req, res) => {
       return observation;
     });
 
-    res.json({
-      resourceType: 'Bundle',
-      total: fhirObservations.length,
-      entry: fhirObservations.map(obs => ({ resource: obs }))
-    });
+    res.json({resourceType: 'Bundle',total: fhirObservations.length,entry: fhirObservations.map(obs => ({ resource: obs }))});
 
   } catch (error) {
     console.error('Error searching observations:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error'});
   }
 };
 

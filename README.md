@@ -1,6 +1,24 @@
 # Project Setup
 
-## Installation
+## Frontend Installation
+
+```bash
+npm install
+
+# Run the application
+npm run seed
+```
+
+Frontend Tech Stack
+
+- Runtime: ReactJS (with Vite)
+- Routing: React Router DOM
+- UI: Bootstrap, FontAwesome
+- Data Handling: Axios
+- Visualization: Chart.js + React-Chartjs-2
+- Tables: React Data Table Component
+
+## Backend Installation
 
 Install all required dependencies:
 
