@@ -135,7 +135,6 @@ const getChartData = () => {
         tension: 0.1,
         borderWidth: 2,
         pointBackgroundColor: sortedObs.map(({ resource }) => resource.is_abnormal ? 'red' : color),
-        pointBackgroundColor: color,
         pointBorderColor: 'white',
         pointBorderWidth: 2,
         pointRadius: sortedObs.map(({ resource }) => 
